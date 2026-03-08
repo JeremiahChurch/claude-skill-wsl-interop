@@ -53,21 +53,49 @@ file:////wsl.localhost/Ubuntu<wsl-absolute-path-with-forward-slashes>
 ```
 
 **Format — Windows filesystem files** (`/mnt/c/...`, `/mnt/d/...`):
-No clickable file URI works for Windows drive paths. Convert to the native drive letter and present as plain text:
+No clickable file URI works for Windows drive paths in the terminal. Convert to the native drive letter for display, and **offer to open the file** using `cmd.exe`:
 
 ```
 The file is at C:\Users\me\Documents\report.pdf
+Want me to open it?
 ```
 
-Conversion: strip `/mnt/c/` → `C:\`, `/mnt/d/` → `D:\`, and replace `/` with `\`.
+If the user says yes (or says "open it", "show me", etc.):
+```bash
+cmd.exe /c start "" "$(wslpath -w /mnt/c/Users/me/Documents/report.pdf)"
+```
 
-**When to do this:**
-- Files the user asked you to create or modify
-- Documents, images, or artifacts the user will want to open
-- Log files or reports the user should review
-- Any path the user might want to click to navigate to
+Conversion for display: strip `/mnt/c/` → `C:\`, `/mnt/d/` → `D:\`, and replace `/` with `\`.
 
-**When NOT to do this:**
+### Opening Files Directly
+
+For any file the user wants to open — regardless of where it lives — use this pattern:
+
+```bash
+cmd.exe /c start "" "$(wslpath -w /path/to/file)"
+```
+
+This works universally (WSL-native paths, `/mnt/c/` paths, Google Drive, network drives) and opens the file in its default Windows application. It is safe because:
+- Windows ShellExecute handles the open, using default app associations
+- Executable file types (`.exe`, `.bat`, `.cmd`, `.ps1`) trigger SmartScreen/UAC prompts
+- Claude Code's own tool approval means the user sees and approves the command before it runs
+
+**When to offer to open files:**
+- After creating or modifying a document the user will want to review
+- When listing files the user asked about (especially on Windows drives where URIs don't work)
+- When the user says "show me", "open", "where is", or similar
+
+Phrase it naturally: "Want me to open it?" or "I can open that for you if you'd like."
+
+**When to do clickable URIs vs offering to open:**
+
+| Path type | Clickable URI in output | Offer to open |
+|-----------|------------------------|---------------|
+| WSL-native (`/home/...`) | Yes — `file:////wsl.localhost/Ubuntu/path` | Also offer if context suggests they want it opened |
+| Windows drive (`/mnt/c/...`) | No — show `C:\` path as text | Yes — always offer |
+| URLs/services | Yes — `https://` prefix | N/A |
+
+**When NOT to do any of this:**
 - Internal code references during development (source files you're editing back and forth)
 - Paths in code, configs, or scripts (those must stay as WSL paths)
 - Inline `file_path:line_number` references (standard Claude Code format for code navigation)

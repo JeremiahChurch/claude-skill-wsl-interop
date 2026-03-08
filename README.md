@@ -8,6 +8,7 @@ When Claude Code runs inside WSL, there's constant friction at the Windows/Linux
 
 - **Clickable file links** — References WSL files as `file:////wsl.localhost/...` URIs, so you can ctrl+click to open them directly from Claude Code's output (tested in Windows Terminal)
 - **Clickable URLs** — Always outputs full `https://` URLs instead of bare hostnames, so service references are clickable
+- **Open files directly** — For files where clickable URIs don't work (Windows drive paths, Google Drive, network shares), offers to open them via `cmd.exe /c start` in their default Windows app. Safe by design: Claude Code's tool approval + Windows ShellExecute protections
 - **Bidirectional path conversion** — Converts Windows paths (`C:\Users\...`) to WSL paths on input, and provides Windows-accessible paths when referencing files
 - **SSH agent interop** — Uses `ssh.exe` instead of `ssh` when the SSH agent (1Password, GPG4Win) runs on the Windows side
 - **Clipboard bridging** — `clip.exe` for copy, `powershell.exe Get-Clipboard` for paste
