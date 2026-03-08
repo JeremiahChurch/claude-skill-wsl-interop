@@ -6,7 +6,9 @@ A [Claude Code](https://claude.ai/code) skill for seamless Windows Subsystem for
 
 When Claude Code runs inside WSL, there's constant friction at the Windows/Linux boundary — paths don't translate, SSH agents aren't accessible, clipboard doesn't bridge, `sed -i` silently fails. This skill teaches Claude to handle all of it automatically:
 
-- **Bidirectional path conversion** — Converts Windows paths (`C:\Users\...`) to WSL paths on input, and provides clickable Windows paths (`\\wsl.localhost\...`) when referencing files the user might want to open
+- **Clickable file links** — References WSL files as `file:////wsl.localhost/...` URIs in markdown links, so you can ctrl+click to open them directly from Claude Code's output (tested in Windows Terminal)
+- **Clickable URLs** — Always outputs full `https://` URLs instead of bare hostnames, so service references are clickable
+- **Bidirectional path conversion** — Converts Windows paths (`C:\Users\...`) to WSL paths on input, and provides Windows-accessible paths when referencing files
 - **SSH agent interop** — Uses `ssh.exe` instead of `ssh` when the SSH agent (1Password, GPG4Win) runs on the Windows side
 - **Clipboard bridging** — `clip.exe` for copy, `powershell.exe Get-Clipboard` for paste
 - **Filesystem quirk handling** — `sed -i` workarounds, CRLF/LF line ending fixes, `/mnt/` permission awareness

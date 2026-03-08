@@ -27,7 +27,7 @@ Claude Code runs in WSL (Linux), but the user interacts through a Windows termin
 
 The user may paste or reference Windows-formatted paths from screenshots, file dialogs, or Explorer. Convert them before using:
 
-- `C:\Users\jchurch\Downloads\file.pdf` → `/mnt/c/Users/jchurch/Downloads/file.pdf`
+- `C:\Users\me\Downloads\file.pdf` → `/mnt/c/Users/me/Downloads/file.pdf`
 - `\\wsl$\Ubuntu\home\...` → strip the UNC prefix to get the native WSL path
 - `\\wsl.localhost\Ubuntu\home\...` → same treatment
 
@@ -35,26 +35,60 @@ Use `wslpath -u` for programmatic conversion. For simple `/mnt/c/` mappings, dir
 
 ### When You Reference Files (Clickable Paths)
 
-When referencing a file the user might want to open, view, or navigate to, provide the Windows-accessible path so they can click it or paste it into Explorer.
+When referencing a file the user might want to open, view, or navigate to, **provide a clickable markdown link** so they can ctrl+click to open it.
 
-**Format:** After the WSL path, add the Windows path in parentheses:
+**Format — WSL-native files** (`/home/...`, `/tmp/...`):
+Use a markdown link with a `file:` URI. The URI must use **4 slashes** after `file:` and **forward slashes** for the path:
 
 ```
-See the config at `/home/user/project/config.yaml` (`\\wsl.localhost\Ubuntu\home\user\project\config.yaml`)
+Created [output.pdf](file:////wsl.localhost/Ubuntu/home/user/project/output.pdf)
 ```
+
+The general pattern is:
+```
+[display text](file:////wsl.localhost/Ubuntu<wsl-absolute-path-with-forward-slashes>)
+```
+
+**Format — Windows filesystem files** (`/mnt/c/...`, `/mnt/d/...`):
+No clickable file URI works for Windows drive paths. Convert to the native drive letter and present as plain text:
+
+```
+The file is at `C:\Users\me\Documents\report.pdf`
+```
+
+Conversion: strip `/mnt/c/` → `C:\`, `/mnt/d/` → `D:\`, and replace `/` with `\`.
 
 **When to do this:**
 - Files the user asked you to create or modify
 - Documents, images, or artifacts the user will want to open
 - Log files or reports the user should review
+- Any path the user might want to click to navigate to
 
 **When NOT to do this:**
 - Internal code references during development (source files you're editing back and forth)
 - Paths in code, configs, or scripts (those must stay as WSL paths)
-- When the file is on the Windows filesystem already (`/mnt/c/...` — just give the `C:\` path)
+- Inline `file_path:line_number` references (standard Claude Code format for code navigation)
 
-**For files under `/mnt/c/` or `/mnt/d/`**, convert back to the native Windows drive letter:
-- `/mnt/c/Users/jchurch/Documents/report.pdf` → reference as `C:\Users\jchurch\Documents\report.pdf`
+### When You Reference URLs and Hostnames
+
+**Always use full URLs with a scheme** — never bare hostnames. The terminal auto-links `https://` URLs but bare hostnames are not clickable.
+
+```
+# BAD — not clickable:
+Check the dashboard at monitor.example.com
+
+# GOOD — clickable:
+Check the dashboard at https://monitor.example.com
+```
+
+For internal services, always prefix with the appropriate scheme:
+```
+Service dashboard at https://monitor.example.com
+Router admin at https://192.168.1.1
+Non-HTTPS service at http://192.168.1.50:3001
+```
+
+This applies to all hostnames, IPs with ports, and service references mentioned in prose output.
 
 ### Quick Reference for Manual Conversion
 
