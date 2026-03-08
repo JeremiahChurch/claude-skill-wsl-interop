@@ -42,29 +42,23 @@ git clone https://github.com/JeremiahChurch/claude-skill-wsl-interop.git ~/.clau
 
 Copy `SKILL.md` into `~/.claude/skills/wsl-interop/SKILL.md`.
 
-## Usage
+## Important: Add a CLAUDE.md Directive
 
-The skill triggers automatically whenever Claude Code detects WSL-related scenarios:
-- You paste a Windows path
-- Claude references a file you might want to open
-- SSH or clipboard operations cross the WSL boundary
-- Filesystem operations hit WSL-specific quirks
+Claude Code's automatic skill triggering does **not** reliably fire for this skill. Tasks like "where's my file?" or "ssh isn't working" are seen as simple enough to handle without consulting a skill — so the description-based trigger never activates.
 
-No slash command needed — it's ambient.
+**You must add a directive to your global `~/.claude/CLAUDE.md`** to ensure the skill is loaded when it matters:
+
+```markdown
+## Environment
+- Always running inside WSL. When your response will include file paths, URLs/hostnames, or SSH commands, invoke the `wsl-interop` skill and follow its output formatting rules. This applies every time — not just when the user mentions WSL or paths.
+```
+
+Without this, the skill will only activate if you explicitly invoke it or happen to mention WSL-specific keywords.
 
 ## Requirements
 
 - WSL (any version, WSL2 recommended)
 - `wslpath` (included in all modern WSL installations)
-
-## Updating Your Global CLAUDE.md
-
-If you have WSL-specific instructions in `~/.claude/CLAUDE.md`, you can simplify them since the skill now handles those patterns. For example, you can replace detailed path conversion instructions with:
-
-```markdown
-## Environment
-- Running inside WSL. The `wsl-interop` skill handles path conversion and Windows interop.
-```
 
 ## License
 

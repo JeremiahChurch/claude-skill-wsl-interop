@@ -1,0 +1,78 @@
+[
+  {
+    "query": "I just finished analyzing some docs and created strategic_analysis.md, email_analysis.md, and gap_analysis.md in my Google Drive folder at /mnt/c/Users/me/My Drive/Projects/Case files/ — can you show me where those files are so I can open them?",
+    "should_trigger": true
+  },
+  {
+    "query": "I wrote a python script that outputs results to /home/user/projects/data-pipeline/output/results.csv — can you remind me where that file ended up?",
+    "should_trigger": true
+  },
+  {
+    "query": "can you check what's running on my server at 192.168.1.50 and also pull up the monitoring dashboard and cameras?",
+    "should_trigger": true
+  },
+  {
+    "query": "I need to ssh into my server but ssh keeps failing with 'permission denied'. I'm using 1password for my keys",
+    "should_trigger": true
+  },
+  {
+    "query": "I have a file at C:\\Users\\me\\Downloads\\invoice_march_2026.pdf that I need to parse — can you read it?",
+    "should_trigger": true
+  },
+  {
+    "query": "I'm trying to edit /etc/nginx/nginx.conf on my remote host but sed -i keeps silently failing, what's going on?",
+    "should_trigger": true
+  },
+  {
+    "query": "copy the contents of that yaml file to my clipboard so I can paste it into the web UI",
+    "should_trigger": true
+  },
+  {
+    "query": "I just created a report at /home/user/projects/docs/energy_report.html — how do I open it in my browser?",
+    "should_trigger": true
+  },
+  {
+    "query": "my shell script keeps failing with a weird error about \\r characters, what's wrong?",
+    "should_trigger": true
+  },
+  {
+    "query": "can you list all the yaml config files and tell me which ones configure thermostats?",
+    "should_trigger": false
+  },
+  {
+    "query": "write me an automation that turns off the shop lights at 11pm every night",
+    "should_trigger": false
+  },
+  {
+    "query": "what's the current state of sensor.battery_soc? is the battery charging or discharging?",
+    "should_trigger": false
+  },
+  {
+    "query": "can you help me debug this jinja2 template? it's returning 'unavailable' instead of the power value",
+    "should_trigger": false
+  },
+  {
+    "query": "add a new modbus register for the inverter PV voltage at register 0x0107",
+    "should_trigger": false
+  },
+  {
+    "query": "set up a cron job that runs my backup script every day at 3am",
+    "should_trigger": false
+  },
+  {
+    "query": "can you check the git log and tell me what changed in the last 5 commits?",
+    "should_trigger": false
+  },
+  {
+    "query": "install numpy and pandas in my python virtualenv",
+    "should_trigger": false
+  },
+  {
+    "query": "read the modbus register manual in the manuals/ folder and summarize the battery registers",
+    "should_trigger": false
+  },
+  {
+    "query": "what DNS server is handling resolution for my local domains?",
+    "should_trigger": false
+  }
+]
