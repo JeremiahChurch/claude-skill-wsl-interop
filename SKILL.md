@@ -35,25 +35,28 @@ Use `wslpath -u` for programmatic conversion. For simple `/mnt/c/` mappings, dir
 
 ### When You Reference Files (Clickable Paths)
 
-When referencing a file the user might want to open, view, or navigate to, **provide a clickable markdown link** so they can ctrl+click to open it.
+When referencing a file the user might want to open, view, or navigate to, **provide a clickable `file:` URI** so they can ctrl+click to open it.
+
+**Note:** Claude Code's terminal does NOT render markdown link syntax (`[text](url)`) — it strips the brackets and shows the raw URL. So always output the bare URI, not a markdown link.
 
 **Format — WSL-native files** (`/home/...`, `/tmp/...`):
-Use a markdown link with a `file:` URI. The URI must use **4 slashes** after `file:` and **forward slashes** for the path:
+Use a `file:` URI with **4 slashes** after `file:` and **forward slashes** for the path:
 
 ```
-Created [output.pdf](file:////wsl.localhost/Ubuntu/home/user/project/output.pdf)
+Created the output file:
+file:////wsl.localhost/Ubuntu/home/user/project/output.pdf
 ```
 
 The general pattern is:
 ```
-[display text](file:////wsl.localhost/Ubuntu<wsl-absolute-path-with-forward-slashes>)
+file:////wsl.localhost/Ubuntu<wsl-absolute-path-with-forward-slashes>
 ```
 
 **Format — Windows filesystem files** (`/mnt/c/...`, `/mnt/d/...`):
 No clickable file URI works for Windows drive paths. Convert to the native drive letter and present as plain text:
 
 ```
-The file is at `C:\Users\me\Documents\report.pdf`
+The file is at C:\Users\me\Documents\report.pdf
 ```
 
 Conversion: strip `/mnt/c/` → `C:\`, `/mnt/d/` → `D:\`, and replace `/` with `\`.
