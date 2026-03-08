@@ -1,0 +1,6 @@
+{
+  "name": "wsl-interop",
+  "description": "Seamless WSL/Windows interoperability for Claude Code — bidirectional path conversion, clickable file references, SSH agent interop, clipboard bridging, and filesystem quirk handling.",
+  "version": "1.0.0",
+  "author": "Jeremiah Church"
+}

@@ -16,15 +16,26 @@ When Claude Code runs inside WSL, there's constant friction at the Windows/Linux
 
 ## Installation
 
-### Claude Code CLI
+### Option 1: Claude Code Plugin (recommended)
+
+```
+/plugin install wsl-interop
+```
+
+### Option 2: Vercel Skills CLI
 
 ```bash
-# Clone into your global skills directory
+npx skills add JeremiahChurch/claude-skill-wsl-interop
+```
+
+### Option 3: Git Clone
+
+```bash
 mkdir -p ~/.claude/skills
 git clone https://github.com/JeremiahChurch/claude-skill-wsl-interop.git ~/.claude/skills/wsl-interop
 ```
 
-### Manual
+### Option 4: Manual
 
 Copy `SKILL.md` into `~/.claude/skills/wsl-interop/SKILL.md`.
 
